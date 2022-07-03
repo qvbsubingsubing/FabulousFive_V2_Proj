@@ -11,11 +11,11 @@ if($date_of_input == ""){
 $date_in = date("Y-m-d");
 if(is_numeric($quantity) != ""){
     //echo "item name: ".$item_name." | quantity: ".$quantity." | fragility: ".$fragility." | date_of_input: ".$date_of_input;
-    $servername = "localhost";
-    $username = "id18580145_presenteddatabaseusername";
-    $password = "^4v4<f]#Q)DU&{7R";
-    $dbname = "id18580145_presenteddatabasename";
-    
+    // $servername = "localhost";
+    // $username = "id18580145_presenteddatabaseusername";
+    // $password = "^4v4<f]#Q)DU&{7R";
+    // $dbname = "id18580145_presenteddatabasename";
+    include ("database_warehouse_db.php");
     try {
       $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
       // set the PDO error mode to exception

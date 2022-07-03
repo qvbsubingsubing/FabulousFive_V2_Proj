@@ -1,4 +1,5 @@
 <?php
+error_reporting(E_ERROR | E_PARSE); // get rid of this line of code if you want to check warnings.
 session_start();
 /*To Get All Items in the Table (list.php).*/
 //header('Content-Type: application/json');
@@ -23,11 +24,11 @@ if($password_input == $confirm_password_input){
         echo "Sorry the email is already taken";
     }
     else if($firstname_input != "" && $lastname_input != "" && $email_input != "" && $final_password_input != "" && $contact_number_input != "" && $address_input != ""){
-        $servername = "localhost";
-        $username = "id18580145_presenteddatabaseusername";
-        $password = "^4v4<f]#Q)DU&{7R";
-        $dbname = "id18580145_presenteddatabasename";
-        
+        // $servername = "localhost";
+        // $username = "id18580145_presenteddatabaseusername";
+        // $password = "^4v4<f]#Q)DU&{7R";
+        // $dbname = "id18580145_presenteddatabasename";
+        include ("database_warehouse_db.php");
         try {
           $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
           // set the PDO error mode to exception

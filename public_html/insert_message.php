@@ -4,12 +4,13 @@ $sender_id = $_SESSION["curr_account_id"];
 $receiver_id = $_SESSION["curr_chat_account_id"];
 $message_content = $_POST["message"];
 
-$servername = "localhost";
-$username = "id18580145_presenteddatabaseusername";
-$password = "^4v4<f]#Q)DU&{7R";
-$dbname = "id18580145_presenteddatabasename";
+// $servername = "localhost";
+// $username = "id18580145_presenteddatabaseusername";
+// $password = "^4v4<f]#Q)DU&{7R";
+// $dbname = "id18580145_presenteddatabasename";
 
 try {
+  include ("database_warehouse_db.php");
   $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
   // set the PDO error mode to exception
   $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

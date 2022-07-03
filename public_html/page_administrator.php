@@ -323,7 +323,7 @@
             type: "GET",
             success: function(response){
                 response.forEach(function (item_list) {
-                    if(<?php echo $_SESSION["curr_account_id"]?> == 1){
+                    if(<?php echo $_SESSION["curr_account_id"]?> == 1 && item_list.admin_confirm == 1 && item_list.client_confirm != 1){
                         $('#items').append('<tr>');
                             $('#items').append('<td>' + item_list.item_name + '</td>');
                             $('#items').append('<td>' + item_list.firstname + " " + item_list.lastname + '</td>');
@@ -333,7 +333,7 @@
                             $('#items').append('<td>' + item_list.expiration + '</td>');
                         $('#items').append('</tr>');
                     }
-                    else if (<?php echo $_SESSION["curr_account_id"]?> == item_list.sender_id){
+                    else if (<?php echo $_SESSION["curr_account_id"]?> == item_list.sender_id && item_list.admin_confirm == 1 && item_list.client_confirm != 1){
                         $('#items').append('<tr>');
                             $('#items').append('<td>' + item_list.item_name + '</td>');
                             $('#items').append('<td>' + item_list.firstname + " " + item_list.lastname + '</td>');
@@ -412,7 +412,7 @@
             type: "GET",
             success: function(response){
                 response.forEach(function (item_list) {
-                    if (<?php echo $_SESSION["curr_account_id"]?> == item_list.sender_id && item_list.date_order == "0000-00-00"){
+                    if (<?php echo $_SESSION["curr_account_id"]?> == item_list.sender_id && item_list.date_order == "0000-00-00" && item_list.admin_confirm == 1){
                         $('#withdraw_items').append('<tr>');
                         $('#withdraw_items').append('<td style="width:20%">' + item_list.item_name + '</td>');
                         $('#withdraw_items').append('<td style="width:20%">' + item_list.firstname + " " + item_list.lastname + '</td>');
