@@ -1,0 +1,231 @@
+body{
+    background: url(images/administrator_background_image.jpg) no-repeat fixed;
+    background-size: cover;
+}
+#sticky_profile {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    background-color: grey;
+    color: white;
+    z-index:1;
+}
+#sticky_chat_section{
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    background-color: black;
+    color: white;
+    height: 80rem;
+}
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+    text-align: center;
+    padding: 1rem;
+    width: 100%;
+}
+
+#urgency_container th{
+    background-color: red;
+    color: white;
+}
+#urgency_container td{
+    background-color: black;
+    color: white;
+}
+#urgency_subcontainer th{
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    background-color: rgb(145, 0, 0);
+    color: white;
+}
+#urgency_subcontainer td{
+    background-color: white;
+    color: black;
+}
+#expiration_container th{
+    background-color: orange;
+    color: white;
+}
+#expiration_container td{
+    background-color: black;
+    color: white;
+}
+#expiration_subcontainer th{
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    background-color: rgb(182, 118, 0);
+    color: white;
+}
+#expiration_subcontainer td{
+    background-color: white;
+    color: black;
+}
+#send_items_container th{
+    background-color: yellow;
+}
+#send_items_container td{
+    background-color: black;
+}
+#send_items td{
+    background-color: white;
+    color: black;
+}
+#items_container th{
+    background-color: rgb(87, 250, 87);
+    color: black;
+}
+#items_container td{
+    background-color: black;
+}
+#items_table th{
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    background-color: green;
+    color: white;
+}
+#items_table th:hover{
+    background-color: rgb(1, 97, 1);
+}
+#items_table td{
+    background-color: white;
+    color: black;
+}
+#out_items_container th{
+    background-color: rgb(182, 48, 48);
+    color: white;
+}
+#out_items_container td{
+    background-color: black;
+    color: white;
+}
+#out_items td{
+    background-color: white;
+    color: black;
+}
+#withdraw_items_container th{
+    background-color: rgb(176,252,56);
+    color: black;
+}
+#withdraw_items_container td{
+    background-color: black;
+    color: black;
+}
+#withdraw_items td{
+    background-color: white;
+    color: black;
+}
+#contacts_container table {
+    width: 100%;
+}
+#contacts_container th {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    background-color: rgb(107, 197, 253);
+    color: black;
+}
+#contacts_container td {
+    background-color: black;
+}
+#contacts_subcontainer table {
+    width: 100%;
+}
+#contacts_subcontainer th {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    background-color: lightskyblue;
+    color: white;
+}
+#contacts_subcontainer th:hover {
+    background-color: rgb(66, 136, 180);
+    
+}
+#contacts_subcontainer td {
+    background-color: white;
+    color: black;
+}
+#contacts_subcontainer td:hover {
+    background-color: rgb(185, 185, 185);
+    
+}
+#curr_chat_subcontainer th{
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    background-color: purple;
+}
+#curr_chat_subcontainer td{
+    background-color: white;
+    color: black;
+    border-color: white;
+    text-align: left;
+}
+#message_input{
+    color: black;
+}
+.my-custom-scrollbar {
+    position: relative;
+    height: 200px;
+    overflow: auto;
+    }
+.table-wrapper-scroll-y {
+    display: block;
+}
+#button_send{
+    background-color: purple;
+}
+#button_send:hover{
+    background-color: rgb(99, 0, 99);
+}
+#logo{
+    position: absolute;
+    left: 100px;
+    top: 0px;
+    z-index: -1;
+}
+button{
+    background-color: red;
+}
+#incoming_modal th{
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    background-color: rgb(182, 48, 48);
+    color: white;
+}
+#incoming_modal td{
+    background-color: white;
+    color: black;
+}
+button{
+    color: white;
+}
+#tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+}
+
+#tooltip #tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 2;
+}
+
+#tooltip:hover #tooltiptext {
+  visibility: visible;
+}

@@ -1,0 +1,133 @@
+.register {
+  padding-top: 1%;
+}
+
+.register-left {
+  background-image: url("images/warehouse.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  border-top-left-radius: 10%;
+  border-bottom-left-radius: 5%;
+  border-width: 5%;
+}
+.register-right {
+  text-align: center;
+  background: #dac19d;
+  border-top-right-radius: 10%;
+  border-bottom-right-radius: 5%;
+}
+.register-right img {
+  margin-top: 10%;
+  width: 35%;
+  -webkit-animation: mover 2s infinite alternate;
+  animation: mover 1s infinite alternate;
+}
+@-webkit-keyframes mover {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-20px);
+  }
+}
+@keyframes mover {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-20px);
+  }
+}
+
+.register .register-form {
+  padding: 5%;
+}
+
+.register-form h2 {
+  margin-bottom: 5%;
+  font-weight: 600;
+}
+
+.register-form p {
+  margin-bottom: 5%;
+}
+
+.btnRegister {
+  float: right;
+  border: none;
+  margin-top: 3%;
+  border-radius: 1.5rem;
+  padding: 2%;
+  background: #d8a252;
+  color: #000000;
+  font-weight: 700;
+  width: 100%;
+}
+
+.login {
+  padding-top: 4%;
+}
+
+.login-right {
+  background-image: url("images/warehouse.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  border-top-right-radius: 10%;
+  border-bottom-right-radius: 5%;
+  border-width: 5%;
+}
+.login-left {
+  text-align: center;
+  background: #dac19d;
+  border-top-left-radius: 10%;
+  border-bottom-left-radius: 5%;
+}
+.login-left img {
+  margin-top: 30%;
+  width: 35%;
+  -webkit-animation: mover 2s infinite alternate;
+  animation: mover 1s infinite alternate;
+}
+@-webkit-keyframes mover {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-20px);
+  }
+}
+@keyframes mover {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-20px);
+  }
+}
+
+.login .login-form {
+  padding: 5%;
+}
+
+.login-form p {
+  margin-bottom: 10%;
+}
+
+.login-form h2 {
+  margin-bottom: 5%;
+  font-weight: 600;
+}
+
+.btnLogin {
+  float: right;
+  border: none;
+  margin-top: 1%;
+  border-radius: 1.5rem;
+  padding: 2%;
+  background: #d8a252;
+  color: #000000;
+  font-weight: 700;
+  width: 100%;
+}
