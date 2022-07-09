@@ -20,7 +20,7 @@ if(is_numeric($quantity) != ""){
       $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
       // set the PDO error mode to exception
       $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-      $sql = "INSERT INTO in_storage (item_name, sender_id, receiver_id, fragility, quantity, expiration, date_in, date_order, date_out, admin_confirm, client_confirm) VALUES ('$item_name', $sender_id, 1, '$fragility', '$quantity', '$date_of_input', '$date_in', '0000-00-00', '0000-00-00', '0', '0');";
+      $sql = "INSERT INTO in_storage (item_name, sender_id, receiver_id, fragility, quantity, expiration, date_in, date_order, admin_confirm, client_confirm) VALUES ('$item_name', $sender_id, 1, '$fragility', '$quantity', '$date_of_input', '$date_in', '1111-11-11', '0', '0');";
       // use exec() because no results are returned
       $conn->exec($sql);
       echo $sql;

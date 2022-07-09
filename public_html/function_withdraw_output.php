@@ -41,7 +41,7 @@ try {
   // set the PDO error mode to exception
   $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-  $sql = "UPDATE `in_storage` SET in_storage.receiver_id = $target_person, in_storage.date_order = '$date_order', in_storage.client_confirm = 1 WHERE in_storage.item_id = $target_item;";
+  $sql = "UPDATE `in_storage` SET in_storage.receiver_id = $target_person, in_storage.date_order = '$date_order' WHERE in_storage.item_id = $target_item;";
 
   // Prepare statement
   $stmt = $conn->prepare($sql);
