@@ -1,5 +1,8 @@
 <?php
     session_start();
+    if ($_SESSION["curr_email"] == "none"){
+        Header("Location: http://localhost/Software_Engineering_2/public_html/page_login.php");
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -250,18 +253,19 @@
                     <button class="col-sm-12" id="btn_insert" style = "visibility: collapse;" onclick="insert_item()">Store Items</button>
                     <button class="col-sm-12" id="btn_withdraw" style = "visibility: collapse;" onclick="show_withdraw_section()">Withdraw Items</button>
                     <button class="col-sm-12" onclick="view_incoming_deliveries()">Incoming Deliveries</button>
-                    <button class="col-sm-12" onclick="location.href = 'page_login.php';">Log Out</button>
+                    <button class="col-sm-12" onclick="logout()">Log Out</button>
                 </div>
             </div>
         </div>
         
     </body>
     <script>
-// START INITIAL FETCHES
+    //PUBLIC VARIABLES
     if(<?php echo $_SESSION["curr_account_id"]?> != "1"){
         document.getElementById("btn_insert").style.visibility = "visible";
         document.getElementById("btn_withdraw").style.visibility = "visible";
     }
+    message_receiver = 0;
     //URGENCY CONTENT
         $.ajax({
             url: "fetch_item_list_by_urgency.php",
@@ -271,7 +275,7 @@
                     document.getElementById("urgency_container").style.visibility = "visible";
                     response.forEach(function (item_list) {
                         $('#urgent_items').append('<tr>');
-                        if(item_list.date_order != '0000-00-00'){
+                        if(item_list.date_order != '1111-11-11'){
                             $('#urgent_items').append('<td>' + item_list.item_name + '</td>');
                             $('#urgent_items').append('<td>' + item_list.firstname + " " + item_list.lastname + '</td>');
                             $('#urgent_items').append('<td>' + item_list.fragility + '</td>');
@@ -290,7 +294,7 @@
             success: function(response){
                 response.forEach(function (item_list) {
                     if(<?php echo $_SESSION["curr_account_id"]?> == 1){
-                        if(item_list.expiration != '0000-00-00'){
+                        if(item_list.expiration != '1111-11-11'){
                             $('#expiration_items').append('<tr>');
                             $('#expiration_items').append('<td>' + item_list.item_name + '</td>');
                             $('#expiration_items').append('<td>' + item_list.fragility + '</td>');
@@ -302,7 +306,7 @@
                         }
                     }
                     else if (<?php echo $_SESSION["curr_account_id"]?> == item_list.sender_id){
-                        if(item_list.expiration != '0000-00-00'){
+                        if(item_list.expiration != '1111-11-11'){
                             $('#expiration_items').append('<tr>');
                             $('#expiration_items').append('<td>' + item_list.item_name + '</td>');
                             $('#expiration_items').append('<td>' + item_list.fragility + '</td>');
@@ -330,7 +334,12 @@
                             $('#items').append('<td>' + item_list.fragility + '</td>');
                             $('#items').append('<td>' + item_list.quantity + '</td>');
                             $('#items').append('<td>' + item_list.date_in + '</td>');
-                            $('#items').append('<td>' + item_list.expiration + '</td>');
+                            if(item_list.expiration == '0000-00-00'){
+                                $('#items').append('<td>' + "N/A" + '</td>');
+                            } else {
+                                $('#items').append('<td>' + item_list.expiration + '</td>');
+                            }
+                            
                         $('#items').append('</tr>');
                     }
                     else if (<?php echo $_SESSION["curr_account_id"]?> == item_list.sender_id && item_list.admin_confirm == 1 && item_list.client_confirm != 1){
@@ -340,7 +349,11 @@
                             $('#items').append('<td>' + item_list.fragility + '</td>');
                             $('#items').append('<td>' + item_list.quantity + '</td>');
                             $('#items').append('<td>' + item_list.date_in + '</td>');
-                            $('#items').append('<td>' + item_list.expiration + '</td>');
+                            if(item_list.expiration == '0000-00-00'){
+                                $('#items').append('<td>' + "N/A" + '</td>');
+                            } else {
+                                $('#items').append('<td>' + item_list.expiration + '</td>');
+                            }
                         $('#items').append('</tr>');
                     }
                 });
@@ -393,7 +406,7 @@
                             $('#out_items').append('<td><input id="item_confirmation'+item_list.item_id+'" type="button" value="Confirm Transaction" onclick="item_confirm_transaction('+item_list.item_id+')"></td>');
                         $('#out_items').append('</tr>');
                     }
-                    else if (<?php echo $_SESSION["curr_account_id"]?> == item_list.receiver_id && item_list.date_order != "0000-00-00" && item_list.client_confirm != "1" && item_list.admin_confirm == 1){
+                    else if (<?php echo $_SESSION["curr_account_id"]?> == item_list.receiver_id && item_list.date_order != "1111-11-11" && item_list.client_confirm != "1" && item_list.admin_confirm == 1){
                         $('#out_items').append('<tr>');
                             $('#out_items').append('<td>' + item_list.item_name + '</td>');
                             $('#out_items').append('<td>' + item_list.firstname + " " + item_list.lastname + '</td>');
@@ -412,7 +425,7 @@
             type: "GET",
             success: function(response){
                 response.forEach(function (item_list) {
-                    if (<?php echo $_SESSION["curr_account_id"]?> == item_list.sender_id && item_list.date_order == "0000-00-00" && item_list.admin_confirm == 1){
+                    if (<?php echo $_SESSION["curr_account_id"]?> == item_list.sender_id && item_list.date_order == "1111-11-11" && item_list.admin_confirm == 1){
                         $('#withdraw_items').append('<tr>');
                         $('#withdraw_items').append('<td style="width:20%">' + item_list.item_name + '</td>');
                         $('#withdraw_items').append('<td style="width:20%">' + item_list.firstname + " " + item_list.lastname + '</td>');
@@ -629,13 +642,13 @@
 
         function contacts_click_function(x){
             $("#chat").empty();
+            message_receiver = x;
             $.post("function_fetch_choose_update_chat.php",
               {
                 receiver: x
               },
               function(data, status){
                 //alert("chosen target: "+x);
-                
                 data.forEach(function (chats) {
                     //need pre-requisite
                         $('#chat').append('<tr>');
@@ -646,23 +659,46 @@
                             }
                         $('#chat').append('</tr>');
                 });
-                location.reload();
+                // location.reload();
                 
               });
         }
 // END FUNCTION CONTACTS CONTENTS
 // START FUNCTION SEND MESSAGE
-    function send_message(x){
+    function send_message(x, y){
+        $.ajaxSetup({async: false});
+        //alert("message_receiver = "+message_receiver)
         //alert("send message: " + x);
-        $.post("insert_message.php",{message: x},function(data, status){
+        $.post("insert_message.php",{message: x, message_receiver: y},function(data, status){
             document.getElementById("message_input").value = "";
             //alert(data);
-            location.reload();
-        })
+            // location.reload();
+        });
+        $("#chat").empty();
+        $.post("function_fetch_choose_update_chat.php",
+              {
+                receiver: y
+              },
+              function(data, status){
+                //alert("chosen target: "+x);
+                data.forEach(function (chats) {
+                    //need pre-requisite
+                        $('#chat').append('<tr>');
+                            if(<?php echo $_SESSION["curr_account_id"]?> == chats.sender_id){
+                                $('#chat').append('<td style="text-align: right; font-weight: bold;">' + chats.message_content + '</td>');
+                            } else {
+                                $('#chat').append('<td>' + chats.message_content + '</td>');
+                            }
+                        $('#chat').append('</tr>');
+                });
+                // location.reload();
+                
+              });
+        $.ajaxSetup({async: true});
     }
     function init_send_message(){
         x = document.getElementById("message_input").value;
-        send_message(x);
+        send_message(x, message_receiver);
     }
 // END FUNCTION SEND MESSAGE
 // START FUNCTION INSERT ITEM DISPLAY
@@ -686,7 +722,7 @@
               },
               function(data, status){
                 //alert("data: ["+data+"]");
-                alert(data);
+                alert("ITEM INSERTION SUCCESSFUL");
                 document.getElementById("input_item_name").value = "";
                 document.getElementById("input_quantity").value = "";
                 document.getElementById("input_fragile").value = "No";
@@ -773,5 +809,10 @@
         document.getElementById("withdraw_items_container").style.visibility = "collapse";
     }
 //END FUNCTION WITHDRAW DISPLAY CANCEL
+//START FUNCTION LOGOUT
+    function logout(){
+        window.location.href = "page_login.php";
+    }
+//END FUNCTION LOGOUT
     </script>
 </html>

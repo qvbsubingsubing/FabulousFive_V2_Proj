@@ -1,7 +1,7 @@
 <?php
 session_start();
 $sender_id = $_SESSION["curr_account_id"];
-$receiver_id = $_SESSION["curr_chat_account_id"];
+$receiver_id = $_POST["message_receiver"];
 $message_content = $_POST["message"];
 
 // $servername = "localhost";

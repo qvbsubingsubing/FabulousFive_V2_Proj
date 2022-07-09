@@ -1,4 +1,5 @@
 <?php
+error_reporting(E_ERROR | E_PARSE);
 session_start();
 /*To Get All Items in the Table (list.php).*/
 //header('Content-Type: application/json');
