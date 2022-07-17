@@ -163,7 +163,7 @@
                                                 <th>Sender Name</th>
                                                 <th>Fragility</th>
                                                 <th>Quantity</th>
-                                                <th>Date Order</th>
+                                                <th>Date In</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -292,6 +292,8 @@
             url: "fetch_item_list.php",
             type: "GET",
             success: function(response){
+                //alert(response);
+                response = JSON.parse(decrypt(response));
                 response.forEach(function (item_list) {
                     if(<?php echo $_SESSION["curr_account_id"]?> == 1){
                         if(item_list.expiration != '1111-11-11'){
@@ -326,6 +328,7 @@
             url: "fetch_item_list.php",
             type: "GET",
             success: function(response){
+                response = JSON.parse(decrypt(response));
                 response.forEach(function (item_list) {
                     if(<?php echo $_SESSION["curr_account_id"]?> == 1 && item_list.admin_confirm == 1 && item_list.client_confirm != 1){
                         $('#items').append('<tr>');
@@ -334,7 +337,7 @@
                             $('#items').append('<td>' + item_list.fragility + '</td>');
                             $('#items').append('<td>' + item_list.quantity + '</td>');
                             $('#items').append('<td>' + item_list.date_in + '</td>');
-                            if(item_list.expiration == '0000-00-00'){
+                            if(item_list.expiration == '1111-11-11'){
                                 $('#items').append('<td>' + "N/A" + '</td>');
                             } else {
                                 $('#items').append('<td>' + item_list.expiration + '</td>');
@@ -349,7 +352,7 @@
                             $('#items').append('<td>' + item_list.fragility + '</td>');
                             $('#items').append('<td>' + item_list.quantity + '</td>');
                             $('#items').append('<td>' + item_list.date_in + '</td>');
-                            if(item_list.expiration == '0000-00-00'){
+                            if(item_list.expiration == '1111-11-11'){
                                 $('#items').append('<td>' + "N/A" + '</td>');
                             } else {
                                 $('#items').append('<td>' + item_list.expiration + '</td>');
@@ -378,6 +381,7 @@
             url: "fetch_chatbox_messages.php",
             type: "GET",
             success: function(response){
+                response = JSON.parse(decrypt(response));
                 response.forEach(function (chats) {
                     //need pre-requisite
                         $('#chat').append('<tr>');
@@ -395,6 +399,7 @@
             url: "fetch_item_list.php",
             type: "GET",
             success: function(response){
+                response = JSON.parse(decrypt(response));
                 response.forEach(function (item_list) {
                     if(<?php echo $_SESSION["curr_account_id"]?> == 1 && item_list.admin_confirm != 1){
                         $('#out_items').append('<tr>');
@@ -402,7 +407,7 @@
                             $('#out_items').append('<td>' + item_list.firstname + " " + item_list.lastname + '</td>');
                             $('#out_items').append('<td>' + item_list.fragility + '</td>');
                             $('#out_items').append('<td>' + item_list.quantity + '</td>');
-                            $('#out_items').append('<td>' + item_list.date_order + '</td>');
+                            $('#out_items').append('<td>' + item_list.date_in + '</td>');
                             $('#out_items').append('<td><input id="item_confirmation'+item_list.item_id+'" type="button" value="Confirm Transaction" onclick="item_confirm_transaction('+item_list.item_id+')"></td>');
                         $('#out_items').append('</tr>');
                     }
@@ -412,7 +417,7 @@
                             $('#out_items').append('<td>' + item_list.firstname + " " + item_list.lastname + '</td>');
                             $('#out_items').append('<td>' + item_list.fragility + '</td>');
                             $('#out_items').append('<td>' + item_list.quantity + '</td>');
-                            $('#out_items').append('<td>' + item_list.date_order + '</td>');
+                            $('#out_items').append('<td>' + item_list.date_in + '</td>');
                             $('#out_items').append('<td><input id="item_confirmation'+item_list.item_id+'" type="button" value="Confirm Transaction" onclick="item_confirm_transaction('+item_list.item_id+')"></td>');
                         $('#out_items').append('</tr>');
                     }
@@ -424,6 +429,7 @@
             url: "fetch_item_list.php",
             type: "GET",
             success: function(response){
+                response = JSON.parse(decrypt(response));
                 response.forEach(function (item_list) {
                     if (<?php echo $_SESSION["curr_account_id"]?> == item_list.sender_id && item_list.date_order == "1111-11-11" && item_list.admin_confirm == 1){
                         $('#withdraw_items').append('<tr>');
@@ -669,9 +675,9 @@
         $.ajaxSetup({async: false});
         //alert("message_receiver = "+message_receiver)
         //alert("send message: " + x);
-        $.post("insert_message.php",{message: x, message_receiver: y},function(data, status){
+        $.post("insert_message.php",{message: encrypt(x), message_receiver: y},function(data, status){
             document.getElementById("message_input").value = "";
-            //alert(data);
+            alert(data);
             // location.reload();
         });
         $("#chat").empty();
@@ -715,10 +721,10 @@
     function in_transact_item(){
         $.post("insert_item.php",
               {
-                item_name: $("#input_item_name").val(),
-                quantity: $("#input_quantity").val(),
-                fragility: $("#input_fragile").val(),
-                date_of_input: $("#input_expiration").val()
+                item_name: encrypt($("#input_item_name").val()),
+                quantity: encrypt($("#input_quantity").val()),
+                fragility: encrypt($("#input_fragile").val()),
+                date_of_input: encrypt($("#input_expiration").val())
               },
               function(data, status){
                 //alert("data: ["+data+"]");
@@ -814,5 +820,65 @@
         window.location.href = "page_login.php";
     }
 //END FUNCTION LOGOUT
+//START RSA ALGORITHM
+function encrypt(sample_message){
+        //sample message (well literally). ascii message, same as sample message, but in ascii form.
+        ascii_message = []
+        for(let i = 0; i < sample_message.length; i++){
+            ascii_message[i] = sample_message.charCodeAt(i);
+        }
+        //RSA-in TIME!
+        encrypt_array = [11, 13, 17, 19, 23, 29, 191, 193, 197, 199]
+        prime_array = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97]
+        p_var = Math.floor(Math.random() * encrypt_array.length);
+        q_var = Math.floor(Math.random() * encrypt_array.length);
+        while(q_var == p_var){
+            q_var = Math.floor(Math.random() * encrypt_array.length);
+        }
+        n_var = encrypt_array[p_var] * encrypt_array[q_var];
+        l_var = (encrypt_array[p_var] - 1) * (encrypt_array[q_var] - 1);
+        e_var = prime_array[Math.floor(Math.random() * prime_array.length)];
+        while(parseInt(n_var % e_var) == 0 || parseInt(l_var % e_var) == 0){
+            e_var = prime_array[Math.floor(Math.random() * prime_array.length)];
+        }
+        public_key = 0;
+        while(((public_key * e_var) % l_var) != 1){
+            public_key += 1;
+        }
+        //alert("P: "+encrypt_array[p_var].toString()+" | Q: "+encrypt_array[q_var].toString()+" | N: "+n_var.toString()+" | L: "+l_var.toString()+" | E: "+e_var.toString()+" | D: "+public_key.toString())
+        //ENCRYPTING
+        encrypted_message = []
+        for(let i = 0; i < ascii_message.length; i++){
+            encrypted_message[i] = powerMod(ascii_message[i], e_var, n_var)
+        }
+        encrypted_message[encrypted_message.length] = public_key;
+        encrypted_message[encrypted_message.length] = n_var;
+        return encrypted_message;
+    }
+    function decrypt(sample_encrypted_message){
+        //DECRYPTING
+        raw_decrypted_message = [];
+        decrypted_message = "";
+        for(let i = 0; i < sample_encrypted_message.length - 2; i++){
+            raw_decrypted_message[i] = powerMod(sample_encrypted_message[i], sample_encrypted_message[sample_encrypted_message.length-2], sample_encrypted_message[sample_encrypted_message.length-1])
+        }
+        for(let i = 0; i < raw_decrypted_message.length; i++){
+            decrypted_message = decrypted_message + String.fromCharCode(raw_decrypted_message[i]);
+        }
+        return decrypted_message;
+    }
+    function powerMod(base, exponent, modulus) {
+        if (modulus === 1) return 0;
+        var result = 1;
+        base = base % modulus;
+        while (exponent > 0) {
+            if (exponent % 2 === 1)  //odd number
+                result = (result * base) % modulus;
+            exponent = exponent >> 1; //divide by 2
+            base = (base * base) % modulus;
+        }
+        return result;
+    }
+//END RSA ALGORITHM
     </script>
 </html>

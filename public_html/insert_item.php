@@ -1,12 +1,40 @@
 <?php
 session_start();
-$item_name = $_POST["item_name"];
-$quantity = $_POST["quantity"];
-$fragility = $_POST["fragility"];
-$date_of_input = $_POST["date_of_input"];
+$item_name = decrypt($_POST["item_name"]);
+$quantity = decrypt($_POST["quantity"]);
+$fragility = decrypt($_POST["fragility"]);
+$date_of_input = decrypt($_POST["date_of_input"]);
 $sender_id = $_SESSION["curr_account_id"];
+//RSA***
+
+function decrypt($sample_encrypted_message){
+  //DECRYPTING
+  $raw_decrypted_message = [];
+  $decrypted_message = "";
+  for($i = 0; $i < count($sample_encrypted_message) - 2; $i++){
+      $raw_decrypted_message[$i] = powerMod($sample_encrypted_message[$i], $sample_encrypted_message[count($sample_encrypted_message)-2], $sample_encrypted_message[count($sample_encrypted_message)-1]);
+  }
+  for($i = 0; $i < count($raw_decrypted_message); $i++){
+      $decrypted_message = $decrypted_message.chr($raw_decrypted_message[$i]);
+  }
+  return $decrypted_message;
+}
+function powerMod($base, $exponent, $modulus) {
+  if ($modulus === 1) return 0;
+  $result = 1;
+  $base = $base % $modulus;
+  while ($exponent > 0) {
+      if ($exponent % 2 === 1)  //odd number
+          $result = ($result * $base) % $modulus;
+      $exponent = $exponent >> 1; //divide by 2
+      $base = ($base * $base) % $modulus;
+  }
+  return $result;
+}
+
+//RSA***
 if($date_of_input == ""){
-    $date_of_input = "0000-00-00";
+    $date_of_input = "1111-11-11";
 }
 $date_in = date("Y-m-d");
 if(is_numeric($quantity) != ""){
