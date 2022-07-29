@@ -3,14 +3,14 @@ error_reporting(E_ERROR | E_PARSE); // get rid of this line of code if you want 
 session_start();
 /*To Get All Items in the Table (list.php).*/
 //header('Content-Type: application/json');
-$firstname_input = $_POST["firstname_input"];
-$lastname_input = $_POST["lastname_input"];
-$email_input = $_POST["email_input"];
-$password_input = $_POST["password_input"];
-$confirm_password_input = $_POST["confirm_password_input"];
-$gender_input = $_POST["gender_input"];
-$contact_number_input = $_POST["contact_number_input"];
-$address_input = $_POST["address_input"];
+$firstname_input = decrypt($_POST["firstname_input"]);
+$lastname_input = decrypt($_POST["lastname_input"]);
+$email_input = decrypt($_POST["email_input"]);
+$password_input = decrypt($_POST["password_input"]);
+$confirm_password_input = decrypt($_POST["confirm_password_input"]);
+$gender_input = decrypt($_POST["gender_input"]);
+$contact_number_input = decrypt($_POST["contact_number_input"]);
+$address_input = decrypt($_POST["address_input"]);
 $final_password_input = "";
 if(is_numeric($contact_number_input) != 1){
     echo "Contact number error!";
@@ -57,5 +57,28 @@ if(is_numeric($contact_number_input) != 1){
     }
 }
 
-
+function decrypt($sample_encrypted_message){
+    //DECRYPTING
+    $raw_decrypted_message = [];
+    $decrypted_message = "";
+    for($i = 0; $i < count($sample_encrypted_message) - 2; $i++){
+        $raw_decrypted_message[$i] = powerMod($sample_encrypted_message[$i], $sample_encrypted_message[count($sample_encrypted_message)-2], $sample_encrypted_message[count($sample_encrypted_message)-1]);
+    }
+    for($i = 0; $i < count($raw_decrypted_message); $i++){
+        $decrypted_message = $decrypted_message.chr($raw_decrypted_message[$i]);
+    }
+    return $decrypted_message;
+  }
+  function powerMod($base, $exponent, $modulus) {
+    if ($modulus === 1) return 0;
+    $result = 1;
+    $base = $base % $modulus;
+    while ($exponent > 0) {
+        if ($exponent % 2 === 1)  //odd number
+            $result = ($result * $base) % $modulus;
+        $exponent = $exponent >> 1; //divide by 2
+        $base = ($base * $base) % $modulus;
+    }
+    return $result;
+  }
 ?>

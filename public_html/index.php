@@ -7,6 +7,7 @@ session_start();
 <body>
 </body>
 <script>
+    //window.location.href = 'delete_item.php';
     window.location.href = 'page_login.php';
     //window.location.href = 'fetch_item_list.php';
     //window.location.href = 'session_user_client1.php';

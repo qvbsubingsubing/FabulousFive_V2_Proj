@@ -1,22 +1,7 @@
 <?php
-/*To Get All Items in the Table (list.php).*/
-header('Content-Type: application/json');
-
-include ("database_warehouse_db.php");
-
-$stmt = $db->prepare("SELECT * FROM `in_storage` INNER JOIN `accounts` ON in_storage.sender_id = accounts.id ORDER BY in_storage.date_order DESC;");
-$stmt->execute();
-$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-$show = encrypt(json_encode($result));
-$display = "";
-foreach($show as $show){
-    $display = $display.$show.",";
-}
-$display[strlen($display)-1] = "]";
-echo "[".$display;
-//echo json_encode($result);
-
+$sample_string = "Hello Gio";
+$encrypted_string = encrypt($sample_string);
+$decrypted_string = decrypt($encrypted_string);
 function encrypt($sample_message){
     //sample message (well literally). ascii message, same as sample message, but in ascii form.
     $ascii_message = [];
@@ -41,7 +26,7 @@ function encrypt($sample_message){
     while((($public_key * $e_var) % $l_var) != 1){
         $public_key += 1;
     }
-    //echo "P: ".$encrypt_array[$p_var]." | Q: ".$encrypt_array[$q_var]." | N: ".strval($n_var)." | L: ".strval($l_var)." | E: ".strval($e_var)." | D: ".strval($public_key);
+    echo "P: ".$encrypt_array[$p_var]." | Q: ".$encrypt_array[$q_var]." | N: ".strval($n_var)." | L: ".strval($l_var)." | E: ".strval($e_var)." | D: ".strval($public_key);
     //ENCRYPTING
     $encrypted_message = [];
     for($i = 0; $i < count($ascii_message); $i++){
@@ -50,6 +35,18 @@ function encrypt($sample_message){
     $encrypted_message[count($encrypted_message)] = $public_key;
     $encrypted_message[count($encrypted_message)] = $n_var;
     return $encrypted_message;
+}
+function decrypt($sample_encrypted_message){
+    //DECRYPTING
+    $raw_decrypted_message = [];
+    $decrypted_message = "";
+    for($i = 0; $i < count($sample_encrypted_message) - 2; $i++){
+        $raw_decrypted_message[$i] = powerMod($sample_encrypted_message[$i], $sample_encrypted_message[count($sample_encrypted_message)-2], $sample_encrypted_message[count($sample_encrypted_message)-1]);
+    }
+    for($i = 0; $i < count($raw_decrypted_message); $i++){
+        $decrypted_message = $decrypted_message.chr($raw_decrypted_message[$i]);
+    }
+    return $decrypted_message;
 }
 function powerMod($base, $exponent, $modulus) {
     if ($modulus === 1) return 0;
@@ -63,5 +60,5 @@ function powerMod($base, $exponent, $modulus) {
     }
     return $result;
 }
-
+echo $decrypted_string;
 ?>

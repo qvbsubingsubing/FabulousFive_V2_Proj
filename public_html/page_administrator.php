@@ -264,6 +264,13 @@
     if(<?php echo $_SESSION["curr_account_id"]?> != "1"){
         document.getElementById("btn_insert").style.visibility = "visible";
         document.getElementById("btn_withdraw").style.visibility = "visible";
+    } else {
+        alert("Inventory Content UPDATED");
+        $.ajax({
+            url: "delete_item.php",
+            type: "GET",
+            success: function(response){}
+        });
     }
     message_receiver = 0;
     //URGENCY CONTENT
@@ -271,6 +278,8 @@
             url: "fetch_item_list_by_urgency.php",
             type: "GET",
             success: function(response){
+                alert(response);
+                response = JSON.parse(decrypt(response));
                 if(<?php echo $_SESSION["curr_account_id"]?> == 1){
                     document.getElementById("urgency_container").style.visibility = "visible";
                     response.forEach(function (item_list) {
@@ -450,6 +459,7 @@
             type: "GET",
             success: function(response){
                 $("#items").empty();
+                response = JSON.parse(decrypt(response));
                 response.forEach(function (item_list) {
                     if(<?php echo $_SESSION["curr_account_id"]?> == 1){
                         $('#items').append('<tr>');
@@ -458,7 +468,11 @@
                             $('#items').append('<td>' + item_list.fragility + '</td>');
                             $('#items').append('<td>' + item_list.quantity + '</td>');
                             $('#items').append('<td>' + item_list.date_in + '</td>');
-                            $('#items').append('<td>' + item_list.expiration + '</td>');
+                            if(item_list.expiration == '1111-11-11'){
+                                $('#items').append('<td>' + "N/A" + '</td>');
+                            } else {
+                                $('#items').append('<td>' + item_list.expiration + '</td>');
+                            }
                         $('#items').append('</tr>');
                     }
                     else if (<?php echo $_SESSION["curr_account_id"]?> == item_list.sender_id){
@@ -468,7 +482,11 @@
                             $('#items').append('<td>' + item_list.fragility + '</td>');
                             $('#items').append('<td>' + item_list.quantity + '</td>');
                             $('#items').append('<td>' + item_list.date_in + '</td>');
-                            $('#items').append('<td>' + item_list.expiration + '</td>');
+                            if(item_list.expiration == '1111-11-11'){
+                                $('#items').append('<td>' + "N/A" + '</td>');
+                            } else {
+                                $('#items').append('<td>' + item_list.expiration + '</td>');
+                            }
                         $('#items').append('</tr>');
                     }
                     
@@ -484,6 +502,7 @@
             type: "GET",
             success: function(response){
                 $("#items").empty();
+                response = JSON.parse(decrypt(response));
                 response.forEach(function (item_list) {
                     if(<?php echo $_SESSION["curr_account_id"]?> == 1){
                         $('#items').append('<tr>');
@@ -492,7 +511,11 @@
                             $('#items').append('<td>' + item_list.fragility + '</td>');
                             $('#items').append('<td>' + item_list.quantity + '</td>');
                             $('#items').append('<td>' + item_list.date_in + '</td>');
-                            $('#items').append('<td>' + item_list.expiration + '</td>');
+                            if(item_list.expiration == '1111-11-11'){
+                                $('#items').append('<td>' + "N/A" + '</td>');
+                            } else {
+                                $('#items').append('<td>' + item_list.expiration + '</td>');
+                            }
                         $('#items').append('</tr>');
                     }
                     else if (<?php echo $_SESSION["curr_account_id"]?> == item_list.sender_id){
@@ -502,7 +525,11 @@
                             $('#items').append('<td>' + item_list.fragility + '</td>');
                             $('#items').append('<td>' + item_list.quantity + '</td>');
                             $('#items').append('<td>' + item_list.date_in + '</td>');
-                            $('#items').append('<td>' + item_list.expiration + '</td>');
+                            if(item_list.expiration == '1111-11-11'){
+                                $('#items').append('<td>' + "N/A" + '</td>');
+                            } else {
+                                $('#items').append('<td>' + item_list.expiration + '</td>');
+                            }
                         $('#items').append('</tr>');
                     }
                     
@@ -517,6 +544,7 @@
             type: "GET",
             success: function(response){
                 $("#items").empty();
+                response = JSON.parse(decrypt(response));
                 response.forEach(function (item_list) {
                     if(<?php echo $_SESSION["curr_account_id"]?> == 1){
                         $('#items').append('<tr>');
@@ -525,7 +553,11 @@
                             $('#items').append('<td>' + item_list.fragility + '</td>');
                             $('#items').append('<td>' + item_list.quantity + '</td>');
                             $('#items').append('<td>' + item_list.date_in + '</td>');
-                            $('#items').append('<td>' + item_list.expiration + '</td>');
+                            if(item_list.expiration == '1111-11-11'){
+                                $('#items').append('<td>' + "N/A" + '</td>');
+                            } else {
+                                $('#items').append('<td>' + item_list.expiration + '</td>');
+                            }
                         $('#items').append('</tr>');
                     }
                     else if (<?php echo $_SESSION["curr_account_id"]?> == item_list.sender_id){
@@ -535,7 +567,11 @@
                             $('#items').append('<td>' + item_list.fragility + '</td>');
                             $('#items').append('<td>' + item_list.quantity + '</td>');
                             $('#items').append('<td>' + item_list.date_in + '</td>');
-                            $('#items').append('<td>' + item_list.expiration + '</td>');
+                            if(item_list.expiration == '1111-11-11'){
+                                $('#items').append('<td>' + "N/A" + '</td>');
+                            } else {
+                                $('#items').append('<td>' + item_list.expiration + '</td>');
+                            }
                         $('#items').append('</tr>');
                     }
                     
@@ -550,6 +586,7 @@
             type: "GET",
             success: function(response){
                 $("#items").empty();
+                response = JSON.parse(decrypt(response));
                 response.forEach(function (item_list) {
                     if(<?php echo $_SESSION["curr_account_id"]?> == 1){
                         $('#items').append('<tr>');
@@ -558,7 +595,11 @@
                             $('#items').append('<td>' + item_list.fragility + '</td>');
                             $('#items').append('<td>' + item_list.quantity + '</td>');
                             $('#items').append('<td>' + item_list.date_in + '</td>');
-                            $('#items').append('<td>' + item_list.expiration + '</td>');
+                            if(item_list.expiration == '1111-11-11'){
+                                $('#items').append('<td>' + "N/A" + '</td>');
+                            } else {
+                                $('#items').append('<td>' + item_list.expiration + '</td>');
+                            }
                         $('#items').append('</tr>');
                     }
                     else if (<?php echo $_SESSION["curr_account_id"]?> == item_list.sender_id){
@@ -568,7 +609,11 @@
                             $('#items').append('<td>' + item_list.fragility + '</td>');
                             $('#items').append('<td>' + item_list.quantity + '</td>');
                             $('#items').append('<td>' + item_list.date_in + '</td>');
-                            $('#items').append('<td>' + item_list.expiration + '</td>');
+                            if(item_list.expiration == '1111-11-11'){
+                                $('#items').append('<td>' + "N/A" + '</td>');
+                            } else {
+                                $('#items').append('<td>' + item_list.expiration + '</td>');
+                            }
                         $('#items').append('</tr>');
                     }
                     
@@ -583,6 +628,7 @@
             type: "GET",
             success: function(response){
                 $("#items").empty();
+                response = JSON.parse(decrypt(response));
                 response.forEach(function (item_list) {
                     if(<?php echo $_SESSION["curr_account_id"]?> == 1){
                         $('#items').append('<tr>');
@@ -591,7 +637,11 @@
                             $('#items').append('<td>' + item_list.fragility + '</td>');
                             $('#items').append('<td>' + item_list.quantity + '</td>');
                             $('#items').append('<td>' + item_list.date_in + '</td>');
-                            $('#items').append('<td>' + item_list.expiration + '</td>');
+                            if(item_list.expiration == '1111-11-11'){
+                                $('#items').append('<td>' + "N/A" + '</td>');
+                            } else {
+                                $('#items').append('<td>' + item_list.expiration + '</td>');
+                            }
                         $('#items').append('</tr>');
                     }
                     else if (<?php echo $_SESSION["curr_account_id"]?> == item_list.sender_id){
@@ -601,7 +651,11 @@
                             $('#items').append('<td>' + item_list.fragility + '</td>');
                             $('#items').append('<td>' + item_list.quantity + '</td>');
                             $('#items').append('<td>' + item_list.date_in + '</td>');
-                            $('#items').append('<td>' + item_list.expiration + '</td>');
+                            if(item_list.expiration == '1111-11-11'){
+                                $('#items').append('<td>' + "N/A" + '</td>');
+                            } else {
+                                $('#items').append('<td>' + item_list.expiration + '</td>');
+                            }
                         $('#items').append('</tr>');
                     }
                     
@@ -616,6 +670,7 @@
             type: "GET",
             success: function(response){
                 $("#items").empty();
+                response = JSON.parse(decrypt(response));
                 response.forEach(function (item_list) {
                     if(<?php echo $_SESSION["curr_account_id"]?> == 1){
                         $('#items').append('<tr>');
@@ -624,7 +679,11 @@
                             $('#items').append('<td>' + item_list.fragility + '</td>');
                             $('#items').append('<td>' + item_list.quantity + '</td>');
                             $('#items').append('<td>' + item_list.date_in + '</td>');
-                            $('#items').append('<td>' + item_list.expiration + '</td>');
+                            if(item_list.expiration == '1111-11-11'){
+                                $('#items').append('<td>' + "N/A" + '</td>');
+                            } else {
+                                $('#items').append('<td>' + item_list.expiration + '</td>');
+                            }
                         $('#items').append('</tr>');
                     }
                     else if (<?php echo $_SESSION["curr_account_id"]?> == item_list.sender_id){
@@ -634,7 +693,11 @@
                             $('#items').append('<td>' + item_list.fragility + '</td>');
                             $('#items').append('<td>' + item_list.quantity + '</td>');
                             $('#items').append('<td>' + item_list.date_in + '</td>');
-                            $('#items').append('<td>' + item_list.expiration + '</td>');
+                            if(item_list.expiration == '1111-11-11'){
+                                $('#items').append('<td>' + "N/A" + '</td>');
+                            } else {
+                                $('#items').append('<td>' + item_list.expiration + '</td>');
+                            }
                         $('#items').append('</tr>');
                     }
                     

@@ -3,8 +3,8 @@ error_reporting(E_ERROR | E_PARSE);
 session_start();
 /*To Get All Items in the Table (list.php).*/
 //header('Content-Type: application/json');
-$email_input = $_POST["email_input"];
-$password_input = $_POST["password_input"];
+$email_input = decrypt($_POST["email_input"]);
+$password_input = decrypt($_POST["password_input"]);
 $password_input = md5($password_input);
 //echo $email_input.' | '.$password_input;
 include ("database_warehouse_db.php");
@@ -25,4 +25,28 @@ if($email_input == json_encode($result['email']) && $password_input == json_enco
     echo "LOGIN FAILED";
 }
 
+function decrypt($sample_encrypted_message){
+    //DECRYPTING
+    $raw_decrypted_message = [];
+    $decrypted_message = "";
+    for($i = 0; $i < count($sample_encrypted_message) - 2; $i++){
+        $raw_decrypted_message[$i] = powerMod($sample_encrypted_message[$i], $sample_encrypted_message[count($sample_encrypted_message)-2], $sample_encrypted_message[count($sample_encrypted_message)-1]);
+    }
+    for($i = 0; $i < count($raw_decrypted_message); $i++){
+        $decrypted_message = $decrypted_message.chr($raw_decrypted_message[$i]);
+    }
+    return $decrypted_message;
+}
+function powerMod($base, $exponent, $modulus) {
+    if ($modulus === 1) return 0;
+    $result = 1;
+    $base = $base % $modulus;
+    while ($exponent > 0) {
+        if ($exponent % 2 === 1)  //odd number
+            $result = ($result * $base) % $modulus;
+        $exponent = $exponent >> 1; //divide by 2
+        $base = ($base * $base) % $modulus;
+    }
+    return $result;
+}
 ?>

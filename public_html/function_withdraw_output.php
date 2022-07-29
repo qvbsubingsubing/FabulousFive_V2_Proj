@@ -1,33 +1,30 @@
 <?php
+error_reporting(E_ERROR | E_PARSE); // get rid of this line of code if you want to check warnings.
 session_start();
 
 
 $target_item = $_POST["withdraw_item_id"];
 $target_person = $_POST["withdraw_target"];
 $date_order = date("Y-m-d");
-
-if($target_person == "me"){
-    $target_person = $_SESSION["curr_account_id"];
-    //echo $target_person;
-}
-else if(is_numeric($target_person) == "1"){
-    //echo "hello4646: ";
-    header('Content-Type: application/json');
+//echo $target_person;
+if(is_numeric($target_person) == 1){
+    //echo "is_numeric: ".is_numeric($target_person)." | ".$target_person;
     include ("database_warehouse_db.php");
     $stmt = $db->prepare("SELECT id FROM `accounts` WHERE contactnumber = $target_person");
     $stmt->execute();
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
-    //echo json_encode($result['id']);
     $target_person = json_encode($result['id']);
-} else{
-    //echo "hello4545: ".$target_person;
-    header('Content-Type: application/json');
-    include ("database_warehouse_db.php");
-    $stmt = $db->prepare("SELECT id FROM `accounts` WHERE email = '$target_person'");
-    $stmt->execute();
-    $result = $stmt->fetch(PDO::FETCH_ASSOC);
-    //echo json_encode($result['id']);
-    $target_person = json_encode($result['id']);
+    
+}
+else if($target_person == "me"){
+    $target_person = $_SESSION["curr_account_id"];
+    // echo "'";
+} else {
+  include ("database_warehouse_db.php");
+  $stmt = $db->prepare("SELECT id FROM `accounts` WHERE email = '$target_person'");
+  $stmt->execute();
+  $result = $stmt->fetch(PDO::FETCH_ASSOC);
+  $target_person = json_encode($result['id']);
 }
 
 // $servername = "localhost";
@@ -35,7 +32,8 @@ else if(is_numeric($target_person) == "1"){
 // $password = "^4v4<f]#Q)DU&{7R";
 // $dbname = "id18580145_presenteddatabasename";
 
-try {
+//echo $target_person;
+if($target_person != 'null'){
   include ("database_warehouse_db.php");
   $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
   // set the PDO error mode to exception
@@ -51,10 +49,11 @@ try {
 
   // echo a message to say the UPDATE succeeded
   echo "WITHDRAW TRANSACTION CONFIRMED";
-} catch(PDOException $e) {
-  echo $sql . "<br>" . $e->getMessage();
+  
+  
+  $conn = null;
+} else {
+  echo "TRANSACTION CANCELLED";
 }
-
-$conn = null;
 
 ?>
